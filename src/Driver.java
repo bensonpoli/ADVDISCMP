@@ -1,3 +1,4 @@
+import java.awt.EventQueue;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -7,13 +8,15 @@ import java.util.ArrayList;
 
 public class Driver {
 	public static void main(String[] args){
-		CRTLogicWithSteps solver = new CRTLogicWithSteps();
-		InputReader ir = new InputReader();
-		ArrayList<int[][]> testCase = ir.StringToInt(ir.process(ir.read("input.txt")));
-		
-		for(int i = 0; i < testCase.size(); i++){
-			String answer = solver.solve(testCase.get(i));
-			System.out.println("\n\nANSWER: " + answer + "\n\n\n");
-		}
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					CRTWindow frame = new CRTWindow();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
 	}
 }
