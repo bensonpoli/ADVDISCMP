@@ -47,7 +47,7 @@ public class CRTLogicWithSteps {
 	}
 	
 	public ArrayList<String>[] solve(int[][] pair){
-		ArrayList<String>[] step = (ArrayList<String>[])new ArrayList[6];
+		ArrayList<String>[] step = (ArrayList<String>[])new ArrayList[7];
 		for(int i = 0; i < step.length; i++){
 			step[i] = new ArrayList<String>();
 		}
@@ -66,14 +66,14 @@ public class CRTLogicWithSteps {
 			}
 		}
 		
-		step[1].add("\nStep 1: Check if relatively prime.");
+		step[1].add("Step 1: Check if relatively prime.");
 		if(pairwise(pair, step[1])){
 			step[1].add("\tAll pairs are relatively prime numbers");
 			long answer = 0;
 			long inverse[] = new long[pair.length];
 			
 			//Step 2a: Get the inverse
-			step[2].add("Step 2: Get the inverse");
+			step[2].add("Step 2: Get the M[i]");
 			String toAddStep2 = "\tM = ";
 			long product = 1;			
 			for(int i = 0; i < inverse.length; i++){
@@ -96,7 +96,7 @@ public class CRTLogicWithSteps {
 			}
 			
 			//Step 3: Look for the value of x such that it will satisfy the condition "x = inverse % n"
-			step[3].add("Step 3: Get the congruence");
+			step[3].add("Step 3: Get the M'[i]");
 			String toAddStep3 = "";
 			long modulo[] = new long[pair.length];
 			for(int i = 0; i < pair.length; i++){
@@ -106,9 +106,9 @@ public class CRTLogicWithSteps {
 					mod++;
 				}
 				modulo[i] = mod;
-				toAddStep3 += ("\t" + "1" + " = " + "x[" + (i+1) + "] * " + (inverse[i]) + " mod " + pair[i][1]);
+				toAddStep3 += ("\t" + "1" + " = " + "M'[" + (i+1) + "] * " + (inverse[i]) + " mod " + pair[i][1]);
 				if(inverse[i] > pair[i][1]){
-					toAddStep3 += (" --> " + "1" + " = " + "x[" + (i+1) + "] * " + (inverse[i]%pair[i][1]) + " mod " + pair[i][1]);
+					toAddStep3 += (" --> " + "1" + " = " + "M'[" + (i+1) + "] * " + (inverse[i]%pair[i][1]) + " mod " + pair[i][1]);
 				}else{
 					toAddStep3 += ("\n");
 				}
@@ -116,10 +116,10 @@ public class CRTLogicWithSteps {
 				toAddStep3 += ("\t\t" + "1" + " = " + ((inverse[i]%pair[i][1]) * modulo[i]) + " mod " + pair[i][1]);
 				
 				toAddStep3 += ("\n");
-				toAddStep3 += ("\t\tsince " + "x[" + (i+1) + "] * " + (inverse[i]%pair[i][1]) + " = " + ((inverse[i]%pair[i][1]) * modulo[i]) + "; ");
+				toAddStep3 += ("\t\tsince " + "M'[" + (i+1) + "] * " + (inverse[i]%pair[i][1]) + " = " + ((inverse[i]%pair[i][1]) * modulo[i]) + "; ");
 				
 				toAddStep3 += ("\n");
-				toAddStep3 += ("\t\tx[" + (i+1) + "] = " + modulo[i]);
+				toAddStep3 += ("\t\tM'[" + (i+1) + "] = " + modulo[i]);
 				
 				step[3].add(toAddStep3);
 			}
@@ -140,14 +140,15 @@ public class CRTLogicWithSteps {
 			
 			//Step 5: Get the smallest non negative value congruent to computed X
 			step[5].add("Step 5: Get the smallest non negative value congruent to computed X");
-			step[5].add("\tx = " + answer + " % " + product);
 			if(answer > product){
-				step[5].add("\tx = " + (answer%product));
+				step[5].add("\tx = " + answer + " % " + product);
 			}
-			
+			step[5].add("ANSWER: \tx = " + (answer%product));
+			step[6].add("================================================================");
 			return step;
 		}else{
-			step[1].add("not pairwise co-prime");		
+			step[1].add("\tANSWER: not pairwise co-prime");
+			step[2].add("================================================================");
 		}
 		//Step 2b: Return value denoting that given set isn't pairwise.
 		return step;

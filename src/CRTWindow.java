@@ -68,7 +68,7 @@ public class CRTWindow extends JFrame implements MouseListener{
 		
 		setTitle("Chinese Remainder Theorem Calculator");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 657, 396);
+		setBounds(100, 100, 639, 396);
 		contentPane = new JPanel();
 		contentPane.setBackground(UIManager.getColor("InternalFrame.inactiveBorderColor"));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -165,17 +165,18 @@ public class CRTWindow extends JFrame implements MouseListener{
 		systemInInputPane.add(textArea);
 		
 		stepsPanel = new JPanel();
-		stepsPanel.setBounds(188, 11, 455, 345);
+		stepsPanel.setBounds(188, 11, 435, 345);
 		stepsPanel.setBorder(new LineBorder(new Color(128, 128, 128)));
 		contentPane.add(stepsPanel);
 		stepsPanel.setLayout(null);
 		
 		stepsScrollPane = new JScrollPane();
-		stepsScrollPane.setBounds(1, 1, 453, 343);
+		stepsScrollPane.setBounds(1, 1, 433, 343);
 		stepsScrollPane.setBorder(new LineBorder(Color.WHITE, 10));
 		stepsPanel.add(stepsScrollPane);
 		
 		stepsTxtArea = new JTextArea();
+		stepsTxtArea.setFont(new Font("Arial Narrow", Font.PLAIN, 13));
 		stepsTxtArea.setEditable(false);
 		stepsScrollPane.setViewportView(stepsTxtArea);
 		
@@ -233,19 +234,20 @@ public class CRTWindow extends JFrame implements MouseListener{
 			
 		}else if(e.getSource().equals(btnCompute)){
 			if(inputTxtArea.getText().trim().equals("")){
-				stepsTxtArea.append("Nothing to compute!");
+				stepsTxtArea.setText("Nothing to compute!");
 			}else{
 				compute(inputTxtArea.getText().trim());
 			}
 		}else if(e.getSource().equals(btnClearFile)){
-			lblFileName.setText("   None selected");
+			lblFileName.setText("   None Selected");
 			toRead = null;
 		}else if(e.getSource().equals(btnComputeFile)){
 			
 			if(toRead != null){
+				System.out.println(toRead);
 				compute(reader.read(selector.getSelectedFile().getAbsolutePath()));
 			}else{
-				compute("");
+				stepsTxtArea.setText("Nothing to compute!");
 			}
 			
 		}else if(e.getSource().equals(btnOpenFile)){
@@ -256,7 +258,7 @@ public class CRTWindow extends JFrame implements MouseListener{
 				lblFileName.setText("   " + selector.getSelectedFile().getName());
 				toRead = new File(selector.getSelectedFile().getAbsolutePath());
 		    } else {
-		    	lblFileName.setText("   None selected");
+		    	lblFileName.setText("   None Selected");
 		    }
 			
 		}
