@@ -228,45 +228,56 @@ public class CRTWindow extends JFrame implements MouseListener{
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
-	try{
-		if(e.getSource().equals(btnClear)){
-			
-			inputTxtArea.setText("");
-			
-		}else if(e.getSource().equals(btnCompute)){
-			if(inputTxtArea.getText().trim().equals("")){
-				stepsTxtArea.setText("Nothing to compute!");
-			}else{
-				compute(inputTxtArea.getText().trim());
+		try{
+			if(e.getSource().equals(btnClear)){
+				
+				inputTxtArea.setText("");
+				
+			}else if(e.getSource().equals(btnCompute)){
+				if(inputTxtArea.getText().trim().equals("")){
+					stepsTxtArea.setText("Nothing to compute!");
+				}else{
+					compute(inputTxtArea.getText().trim());
+				}
+			}else if(e.getSource().equals(btnClearFile)){
+				lblFileName.setText("   None Selected");
+				toRead = null;
+			}else if(e.getSource().equals(btnComputeFile)){
+				
+				if(toRead != null){
+					System.out.println(toRead);
+					compute(reader.read(selector.getSelectedFile().getAbsolutePath()));
+				}else{
+					stepsTxtArea.setText("Nothing to compute!");
+				}
+				
+			}else if(e.getSource().equals(btnOpenFile)){
+				
+				int returnVal = selector.showOpenDialog(this);
+				
+				if (returnVal == JFileChooser.APPROVE_OPTION) {
+					lblFileName.setText("   " + selector.getSelectedFile().getName());
+					toRead = new File(selector.getSelectedFile().getAbsolutePath());
+			    } else {
+			    	lblFileName.setText("   None Selected");
+			    }
+				
 			}
-		}else if(e.getSource().equals(btnClearFile)){
-			lblFileName.setText("   None Selected");
-			toRead = null;
-		}else if(e.getSource().equals(btnComputeFile)){
-			
-			if(toRead != null){
-				System.out.println(toRead);
-				compute(reader.read(selector.getSelectedFile().getAbsolutePath()));
-			}else{
-				stepsTxtArea.setText("Nothing to compute!");
-			}
-			
-		}else if(e.getSource().equals(btnOpenFile)){
-			
-			int returnVal = selector.showOpenDialog(this);
-			
-			if (returnVal == JFileChooser.APPROVE_OPTION) {
-				lblFileName.setText("   " + selector.getSelectedFile().getName());
-				toRead = new File(selector.getSelectedFile().getAbsolutePath());
-		    } else {
-		    	lblFileName.setText("   None Selected");
-		    }
+		}catch(NumberFormatException nfe){
+			stepsTxtArea.setText("Invalid Input. Entered values must be of the following format:"
+					+ "\n1. Each line of a test case consists of 2 integers separated by a space."
+					+ "\n2. Each test case must be separated by a blank line."
+					+ "\n3. No negative values for the second integer for each line."
+					+ "\n\nSample Input Format:"
+					+ "\n1 2"
+					+ "\n1 3"
+					+ "\n1 5"
+					+ "\n"
+					+ "\n1 2"
+					+ "\n1 3"
+					+ "\n1 5"
+					+ "\n1 7");
 			
 		}
-	}		
-	catch(NumberFormatException nfe)
-	{
-		stepsTxtArea.setText("Invalid Input, String Found");
-	}
 	}
 }
