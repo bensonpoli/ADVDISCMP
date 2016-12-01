@@ -228,6 +228,7 @@ public class CRTWindow extends JFrame implements MouseListener{
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
+	try{
 		if(e.getSource().equals(btnClear)){
 			
 			inputTxtArea.setText("");
@@ -262,6 +263,10 @@ public class CRTWindow extends JFrame implements MouseListener{
 		    }
 			
 		}
-		
+	}		
+	catch(NumberFormatException nfe)
+	{
+		stepsTxtArea.setText("Invalid Input, String Found");
+	}
 	}
 }
